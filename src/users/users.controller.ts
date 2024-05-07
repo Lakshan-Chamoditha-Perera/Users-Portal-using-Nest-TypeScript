@@ -1,42 +1,49 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-
+import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
-    constructor() {}
+
+    constructor(private readonly userService: UsersService) { }
 
     @Get()
-    findAllByQuery(@Query('role' )role?:'INTERNS' | 'EMPLOYEES'){
+    findAllByQuery(@Query('role') role?: 'INTERNS' | 'EMPLOYEES') {
         return 'This action returns all users';
     }
 
     @Get()
-    findAll(): string {
-        return 'This action returns all users';
+    findAll() {
+        return this.userService.getUsers();
     }
 
     @Get("interns")
-    findInterns(): string {
-        return 'This action returns all interns';
+    findInterns() {
+        return this.userService.getUsers('INTERNS');
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return `This action returns a #${id} user`;
+        return this.userService.findOne(Number(id));
     }
 
     @Post()
-    create(@Body() user:{}): string {
-        return 'This action adds a new user : ' + JSON.stringify(user);
+    create(@Body() user: {
+        name: string,
+        email: string,
+        role: 'INTERN' | 'ENGINEER' | 'ADMIN'
+    }) {
+        return this.userService.createUser(user);
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() user:{}): string{
-        return `This action updates a ${id} user : ` + JSON.stringify(user);
+    update(@Param('id') id: string, @Body() user: {}) {
+        return this.userService.updateUser(Number(id), user);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string): string {
-        return `This action removes a #${id} user`;
+    remove(@Param('id') id: string) {
+        return this.userService.deleteUser(Number(id))
+            ? 'User deleted successfully'
+            : 'User not found';
     }
 
 }
