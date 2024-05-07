@@ -6,8 +6,8 @@ export class UsersController {
     constructor(private readonly userService: UsersService) { }
 
     @Get()
-    findAllByQuery(@Query('role') role?: 'INTERNS' | 'EMPLOYEES') {
-        return 'This action returns all users';
+    findAllByQuery(@Query('role') role?: 'ADMIN' | 'USER' | 'INTERNS') {
+        return this.userService.getUsers(role);
     }
 
     @Get()
