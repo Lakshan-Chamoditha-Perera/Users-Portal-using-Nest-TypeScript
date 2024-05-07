@@ -16,18 +16,18 @@ export class UsersService {
     }];
 
     getUsers(role?: 'ADMIN' | 'USER' | 'INTERNS') {
-        if (role) {
-            return this.users.filter((user) => user.role === role);
-        }
-        return this.users;
+        return role 
+            ?   this.users.filter((user) => user.role === role) 
+            :   this.users.sort((a, b) => a.id - b.id);
     }
+
 
     findOne(id: number) {
         return this.users.find((user) => user.id === id);
     }
 
     createUser(user: { name: string, email: string, role: 'INTERN' | 'ENGINEER' | 'ADMIN' }) {
-        const usersByHighestId = this.users.sort((a, b) => b.id = a.id);
+        const usersByHighestId = this.users.sort((a, b) => b.id - a.id);
         const newUser = {
             id: usersByHighestId[0].id + 1,
             ...user,
