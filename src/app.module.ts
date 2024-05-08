@@ -21,7 +21,7 @@ import { MyLoggerModule } from './my-logger/my-logger.module';
             limit: 5, // limit each IP to 5 requests per ttl
         }, {
             name: 'long',
-            ttl: 60000, // 1 minute
+            ttl: 1000, // 1 second
             limit: 5, // limit each IP to 5 requests per ttl
         }
         ])
