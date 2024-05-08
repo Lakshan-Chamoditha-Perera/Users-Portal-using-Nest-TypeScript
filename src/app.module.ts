@@ -14,9 +14,15 @@ import {APP_GUARD} from "@nestjs/core";
         DatabaseModule,
         EmployeesModule,
         ThrottlerModule.forRoot([{
-            ttl: 60000,
-            limit: 5,
-        }])
+            name: 'short',
+            ttl: 1000, // 1 second
+            limit: 5, // limit each IP to 5 requests per ttl
+        }, {
+            name: 'long',
+            ttl: 60000, // 1 minute
+            limit: 5, // limit each IP to 5 requests per ttl
+        }
+        ])
     ],
     controllers: [AppController],
     providers: [AppService, {
